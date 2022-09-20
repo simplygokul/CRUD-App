@@ -8,7 +8,7 @@ function SearchTable(props) {
     
 
     const{currentPosts,setRows,heads,query}=props
-    const [head] = heads
+    console.log(query)
     
 
     
@@ -26,15 +26,13 @@ function SearchTable(props) {
         <table> 
           <thead>
           <tr>
-            <th>{head.id }</th>
-            <th>{head.firstName}</th>
-            <th>{head.secondName}</th>
-            <th>{head.email}</th>
-            <th>{head.edit}</th>
+            {heads.map((head)=>{
+                return(<th>{head.label}</th>)
+            })}
           </tr>
           </thead>
           <tbody>
-          {currentPosts.filter(user=>user.firstName.toLowerCase().includes(query)) && currentPosts.map((row,i)=>{
+          {currentPosts.filter(user=>user.firstName.toLowerCase().includes(query)).map((row,i)=>{
             return(
               <React.Fragment>
                   {editId==row.id?<EditRow row={row} rows={currentPosts} setEditId={setEditId}/>:<NonEditRow setEditId={setEditId} row={row} index={i} deleteUser={deleteUser}/>}

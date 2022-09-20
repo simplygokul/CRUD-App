@@ -1,7 +1,7 @@
- [{
-        "id":"ID",
-        "firstName":"FirstName",
-        "secondName":"SecondName",
-        "email":"EmailId",
-        "edit":"Edit"
-}]
+ [
+        {"label":"ID"},
+        {"label":"Name"},
+        {"label":"SecondName"},
+        {"label":"EmailId"},
+        {"label":"Edit"}
+]

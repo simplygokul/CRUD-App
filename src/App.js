@@ -1,24 +1,58 @@
-import logo from './logo.svg';
 import './App.css';
+import * as React from 'react';
+import { useState } from 'react';
+import data from './rows.json'
+import Headings from './Headings.json'
+import AddIcon from '@mui/icons-material/Add';
+import AddModal from './Components/AddModal';
+import Pagination from './Components/pagination';
+import NoSearchTable from './Components/NoSearchTable';
+import SearchBar from './Components/SearchBar';
+import SearchTable from './Components/SearchTable';
 
+
+//import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 function App() {
+  const [modal,setModal] = useState(false)
+  const [heads,setHeads] = useState(Headings)
+  const[query,setQuery]=useState("")
+  const [rows,setRows] = useState(data)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5);
+  const [search,setSearch] = useState(true)
+  
+  const paginate = pageNumber => setCurrentPage(pageNumber);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  
+  const currentPosts = rows.slice(indexOfFirstPost, indexOfLastPost);
+  
+
+  
+
+  
+  const toggleModal=()=>{
+    setModal(!modal)
+    // setRows([...rows,{id:rows.length,firstName:firstName,secondName:secondName,Email:Email}])
+    // console.log(rows,"HI")
+  }
+
+  
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div>
+    <div className='add-btn' onClick={toggleModal}>
+      <AddIcon />
+      </div>
+      <SearchBar setQuery={setQuery}/>
+      <SearchTable query={query} heads={heads} rows={rows} setRows={setRows} currentPosts={currentPosts} />
+      <Pagination
+              postsPerPage={postsPerPage}
+              totalPosts={rows.length}
+              paginate={paginate}
+          />
+        {modal && <AddModal setModal={setModal}  setRows={setRows} modal={modal}/>}
+      </div>
   );
 }
 
